@@ -13,6 +13,8 @@ TOKEN = config('TOKEN')
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
 
+#this is a check
+
 @bot.event
 async def on_ready():
     print('I am online!')
