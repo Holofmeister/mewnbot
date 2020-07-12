@@ -1,0 +1,40 @@
+White Mage
+Red Mage
+Black Mage
+Priest
+Druid
+Summoner
+Augur
+Necromancer
+Knight
+Squire
+Archer
+Hunter
+Falconer
+Scout
+Infantry
+Noble
+Farmer
+Cook
+Baker
+Botanist
+Merchant
+Jeweller
+Smith
+Potter
+Librarian
+Astronomer
+Tinker
+Weaver
+Carpenter
+Cartographer
+Taverner
+Mason
+Professor
+Servant
+Dancer
+Singer
+Instrumentalist
+Poet
+Sculptor
+Painter

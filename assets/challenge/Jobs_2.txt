@@ -1,0 +1,8 @@
+Knight
+Squire
+Archer
+Hunter
+Falconer
+Scout
+Infantry
+Noble

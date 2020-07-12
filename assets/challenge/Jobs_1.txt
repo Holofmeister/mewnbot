@@ -1,0 +1,8 @@
+White Mage
+Red Mage
+Black Mage
+Priest
+Druid
+Summoner
+Augur
+Necromancer
