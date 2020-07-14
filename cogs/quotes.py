@@ -6,10 +6,11 @@ import math
 import datetime
 import random
 import os
-from decouple import config
 
-MOD_ID = int(config('MOD_ID'))
-ADMIN_ID = int(config('ADMIN'))
+with open('secret.json', 'r', encoding='utf8') as s:
+    secret = json.load(s)
+    MOD_ID = int(secret['MOD_ID'])
+    ADMIN_ID = int(secret['ADMIN'])
 
 class Quotes(commands.Cog, name='quotes'):
 
