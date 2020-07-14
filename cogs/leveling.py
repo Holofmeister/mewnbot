@@ -5,11 +5,19 @@ import datetime
 import sqlite3
 import math
 import os
-from decouple import config
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
+import mysql.connector
+from mysql.connector import errorcode
+import mysql
+import json
 
-BOT_ID = config('BOT_ID')
+with open('secret.json', 'r', encoding='utf8') as s:
+    secret = json.load(s)
+    BOT_ID = secret['BOT_ID']
+
+with open('server.json', 'r', encoding='utf8') as s:
+    credentials = json.load(s)
 
 class Leveling(commands.Cog, name='leveling'):
 
@@ -23,12 +31,20 @@ class Leveling(commands.Cog, name='leveling'):
             if message.author.id == BOT_ID:
                 return
             else:
-                db = sqlite3.connect('main.sqlite')
+                try:
+                    db = mysql.connector.MySQLConnection(**credentials)
+                except mysql.connector.Error as err:
+                    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                        print("Something is wrong with your user name or password")
+                    elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                        print("Database does not exist")
+                    else:
+                        print(err)
                 cursor = db.cursor()
                 cursor.execute(f"SELECT user_id FROM levels WHERE guild_id = '{message.author.guild.id}' and user_id = '{message.author.id}'")
                 result = cursor.fetchone()
                 if result is None:
-                    sql = ("INSERT INTO levels(guild_id, user_id, exp, lvl, public) VALUES(?,?,?,?,?)")
+                    sql = ("INSERT INTO levels(guild_id, user_id, exp, lvl, public) VALUES(%s,%s,%s,%s,%s)")
                     val = (message.author.guild.id, message.author.id, 2, 1, 1)
                     cursor.execute(sql, val)
                     db.commit()
@@ -36,7 +52,7 @@ class Leveling(commands.Cog, name='leveling'):
                     cursor.execute(f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{message.author.guild.id}' and user_id = '{message.author.id}'")
                     result1 = cursor.fetchone()
                     exp = int(result1[1])
-                    sql = ("UPDATE levels SET exp = ? WHERE guild_id = ? and user_id = ?")
+                    sql = ("UPDATE levels SET exp = %s WHERE guild_id = %s and user_id = %s")
                     val = (exp + 2, str(message.guild.id), str(message.author.id))
                     cursor.execute(sql, val)
                     db.commit()
@@ -51,22 +67,22 @@ class Leveling(commands.Cog, name='leveling'):
                     if xp_end < xp_start:
                         if public_u == 1:
                             await message.channel.send(f'{message.author.mention} has leveled up to level {lvl_start + 1}.')
-                            sql = ("UPDATE levels SET  lvl = ? WHERE guild_id = ? and user_id is ?")
+                            sql = ("UPDATE levels SET  lvl = %s WHERE guild_id = %s and user_id is %s")
                             val = (int(lvl_start + 1), str(message.guild.id), str(message.author.id))
                             cursor.execute(sql, val)
                             db.commit()
-                            sql = ("UPDATE levels SET  exp = ? WHERE guild_id = ? and user_id is ?")
+                            sql = ("UPDATE levels SET  exp = %s WHERE guild_id = %s and user_id is %s")
                             val = (int(0), str(message.guild.id), str(message.author.id))
                             cursor.execute(sql, val)
                             db.commit()
                             cursor.close()
                             db.close
                         else:
-                            sql = ("UPDATE levels SET  lvl = ? WHERE guild_id = ? and user_id is ?")
+                            sql = ("UPDATE levels SET  lvl = %s WHERE guild_id = %s and user_id is %s")
                             val = (int(lvl_start + 1), str(message.guild.id), str(message.author.id))
                             cursor.execute(sql, val)
                             db.commit()
-                            sql = ("UPDATE levels SET  exp = ? WHERE guild_id = ? and user_id is ?")
+                            sql = ("UPDATE levels SET  exp = %s WHERE guild_id = %s and user_id is %s")
                             val = (int(0), str(message.guild.id), str(message.author.id))
                             cursor.execute(sql, val)
                             db.commit()
@@ -77,7 +93,15 @@ class Leveling(commands.Cog, name='leveling'):
     @commands.command(help='Gives lvl and xp of an mentioned user, or the author of the message.')
     async def rank(self, ctx, user:discord.User=None):
         if user is not None:
-            db = sqlite3.connect('main.sqlite')
+            try:
+                db = mysql.connector.MySQLConnection(**credentials)
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                    print("Something is wrong with your user name or password")
+                elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                    print("Database does not exist")
+                else:
+                    print(err)
             cursor = db.cursor()
             cursor.execute(f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.message.author.guild.id}' and user_id = '{user.id}'")
             result = cursor.fetchone()
@@ -127,7 +151,15 @@ class Leveling(commands.Cog, name='leveling'):
             cursor.close()
             db.close()
         else:
-            db = sqlite3.connect('main.sqlite')
+            try:
+                db = mysql.connector.MySQLConnection(**credentials)
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                    print("Something is wrong with your user name or password")
+                elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                    print("Database does not exist")
+                else:
+                    print(err)
             cursor = db.cursor()
             cursor.execute(f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.message.author.guild.id}' and user_id = '{ctx.message.author.id}'")
             result = cursor.fetchone()
@@ -182,10 +214,18 @@ class Leveling(commands.Cog, name='leveling'):
         else:
             guild = ctx.guild_id
         if status in ('yes', 'y', 'true', 't', '1', 'enable', 'on'):
-            db = sqlite3.connect('main.sqlite')
+            try:
+                db = mysql.connector.MySQLConnection(**credentials)
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                    print("Something is wrong with your user name or password")
+                elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                    print("Database does not exist")
+                else:
+                    print(err)
             cursor = db.cursor()
             cursor.execute(f"SELECT user_id FROM levels WHERE guild_id = '{ctx.author.guild.id}' and user_id = '{ctx.author.id}'")
-            sql = ("UPDATE levels SET public = ? WHERE guild_id = ? and user_id is ?")
+            sql = ("UPDATE levels SET public = %s WHERE guild_id = %s and user_id is %s")
             val = (int(0), guild, str(ctx.author.id))
             cursor.execute(sql, val)
             db.commit()
@@ -193,10 +233,18 @@ class Leveling(commands.Cog, name='leveling'):
             db.close
             await ctx.send(f"{ctx.author.name} is now private.")
         else:
-            db = sqlite3.connect('main.sqlite')
+            try:
+                db = mysql.connector.MySQLConnection(**credentials)
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                    print("Something is wrong with your user name or password")
+                elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                    print("Database does not exist")
+                else:
+                    print(err)
             cursor = db.cursor()
             cursor.execute(f"SELECT user_id FROM levels WHERE guild_id = '{ctx.author.guild.id}' and user_id = '{ctx.author.id}'")
-            sql = ("UPDATE levels SET public = ? WHERE guild_id = ? and user_id is ?")
+            sql = ("UPDATE levels SET public = %s WHERE guild_id = %s and user_id is %s")
             val = (int(1), guild, str(ctx.author.id))
             cursor.execute(sql, val)
             db.commit()

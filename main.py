@@ -6,19 +6,18 @@ import datetime
 import traceback
 import random
 import os
-from decouple import config
+import json
 
-TOKEN = config('TOKEN')
+with open('secret.json', 'r', encoding='utf8') as s:
+    secret = json.load(s)
+    TOKEN = secret['TOKEN']
 
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
 
-#this is a check
-
 @bot.event
 async def on_ready():
     print('I am online!')
-#    return await bot.change_presence(activity=discord.Activity(type=1, name='',))
 
 initial_extensions = ['cogs.jokes',
                     'cogs.leveling',
