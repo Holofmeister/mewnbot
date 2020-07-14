@@ -31,15 +31,7 @@ class Leveling(commands.Cog, name='leveling'):
             if message.author.id == BOT_ID:
                 return
             else:
-                try:
-                    db = mysql.connector.MySQLConnection(**credentials)
-                except mysql.connector.Error as err:
-                    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                        print("Something is wrong with your user name or password")
-                    elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                        print("Database does not exist")
-                    else:
-                        print(err)
+                db = mysql.connector.MySQLConnection(**credentials)
                 cursor = db.cursor()
                 cursor.execute(f"SELECT user_id FROM levels WHERE guild_id = '{message.author.guild.id}' and user_id = '{message.author.id}'")
                 result = cursor.fetchone()
@@ -93,15 +85,7 @@ class Leveling(commands.Cog, name='leveling'):
     @commands.command(help='Gives lvl and xp of an mentioned user, or the author of the message.')
     async def rank(self, ctx, user:discord.User=None):
         if user is not None:
-            try:
-                db = mysql.connector.MySQLConnection(**credentials)
-            except mysql.connector.Error as err:
-                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                    print("Something is wrong with your user name or password")
-                elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                    print("Database does not exist")
-                else:
-                    print(err)
+            db = mysql.connector.MySQLConnection(**credentials)
             cursor = db.cursor()
             cursor.execute(f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.message.author.guild.id}' and user_id = '{user.id}'")
             result = cursor.fetchone()
@@ -151,15 +135,7 @@ class Leveling(commands.Cog, name='leveling'):
             cursor.close()
             db.close()
         else:
-            try:
-                db = mysql.connector.MySQLConnection(**credentials)
-            except mysql.connector.Error as err:
-                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                    print("Something is wrong with your user name or password")
-                elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                    print("Database does not exist")
-                else:
-                    print(err)
+            db = mysql.connector.MySQLConnection(**credentials)
             cursor = db.cursor()
             cursor.execute(f"SELECT user_id, exp, lvl FROM levels WHERE guild_id = '{ctx.message.author.guild.id}' and user_id = '{ctx.message.author.id}'")
             result = cursor.fetchone()
@@ -214,15 +190,7 @@ class Leveling(commands.Cog, name='leveling'):
         else:
             guild = ctx.guild_id
         if status in ('yes', 'y', 'true', 't', '1', 'enable', 'on'):
-            try:
-                db = mysql.connector.MySQLConnection(**credentials)
-            except mysql.connector.Error as err:
-                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                    print("Something is wrong with your user name or password")
-                elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                    print("Database does not exist")
-                else:
-                    print(err)
+            db = mysql.connector.MySQLConnection(**credentials)
             cursor = db.cursor()
             cursor.execute(f"SELECT user_id FROM levels WHERE guild_id = '{ctx.author.guild.id}' and user_id = '{ctx.author.id}'")
             sql = ("UPDATE levels SET public = %s WHERE guild_id = %s and user_id is %s")
@@ -233,15 +201,7 @@ class Leveling(commands.Cog, name='leveling'):
             db.close
             await ctx.send(f"{ctx.author.name} is now private.")
         else:
-            try:
-                db = mysql.connector.MySQLConnection(**credentials)
-            except mysql.connector.Error as err:
-                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                    print("Something is wrong with your user name or password")
-                elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                    print("Database does not exist")
-                else:
-                    print(err)
+            db = mysql.connector.MySQLConnection(**credentials)
             cursor = db.cursor()
             cursor.execute(f"SELECT user_id FROM levels WHERE guild_id = '{ctx.author.guild.id}' and user_id = '{ctx.author.id}'")
             sql = ("UPDATE levels SET public = %s WHERE guild_id = %s and user_id is %s")

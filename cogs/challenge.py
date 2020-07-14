@@ -76,15 +76,7 @@ class Challenge(commands.Cog):
        
     @commands.command()
     async def challenge(self,ctx,*arg):
-        try:
-            db = mysql.connector.MySQLConnection(**credentials)
-        except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Something is wrong with your user name or password")
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Database does not exist")
-            else:
-                print(err)
+        db = mysql.connector.MySQLConnection(**credentials)
         cursor = db.cursor()
         if not arg:
             cursor.execute(f'SELECT NAME, ID, CHARA FROM CHARACTERS WHERE ID = {ctx.author.id}')
