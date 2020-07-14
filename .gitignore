@@ -1,1 +1,3 @@
-*.env
+server.json
+secret.json
+cogs/__pycache__/
