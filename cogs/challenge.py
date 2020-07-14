@@ -3,15 +3,21 @@ from discord.ext import commands
 import asyncio
 import datetime
 import random
-import sqlite3
 import sys
 from PIL import Image, ImageDraw, ImageFont
+import mysql.connector
+from mysql.connector import errorcode
+import mysql
+import json
+
+with open('server.json', 'r', encoding='utf8') as s:
+    credentials = json.load(s)
 
 class Challenge(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-
+        
     async def character_generator(self):
         filenames = ['./assets/challenge/species.txt', #choices[0]
                      './assets/challenge/mooncat_type.txt', #choices[1]
@@ -70,14 +76,22 @@ class Challenge(commands.Cog):
        
     @commands.command()
     async def challenge(self,ctx,*arg):
-        db = sqlite3.connect('challenge.sqlite')
+        try:
+            db = mysql.connector.MySQLConnection(**credentials)
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
         cursor = db.cursor()
         if not arg:
             cursor.execute(f'SELECT NAME, ID, CHARA FROM CHARACTERS WHERE ID = {ctx.author.id}')
             result = cursor.fetchone()
             if result is None:
                 chara = await self.character_generator()
-                sql = (f'INSERT INTO CHARACTERS(NAME, ID, CHARA) VALUES(?, ?, ?)')
+                sql = (f'INSERT INTO CHARACTERS(NAME, ID, CHARA) VALUES(%s, %s, %s)')
                 val = (str(ctx.author.name), str(ctx.author.id), chara)
                 cursor.execute(sql, val)
                 db.commit()
@@ -89,13 +103,13 @@ class Challenge(commands.Cog):
             result = cursor.fetchone()
             if result is None:
                 chara = await self.character_generator()
-                sql = (f'INSERT INTO CHARACTERS(NAME, ID, CHARA) VALUES(?, ?, ?)')
+                sql = (f'INSERT INTO CHARACTERS(NAME, ID, CHARA) VALUES(%s, %s, %s)')
                 val = (str(ctx.author.name), str(ctx.author.id), chara)
                 cursor.execute(sql, val)
                 db.commit()
             else:
                 chara = await self.character_generator()
-                sql = ('UPDATE CHARACTERS SET CHARA = ? WHERE ID = ?')
+                sql = ('UPDATE CHARACTERS SET CHARA = %s WHERE ID = %s')
                 val = (chara, str(ctx.author.id))
                 cursor.execute(sql, val)
                 db.commit()
