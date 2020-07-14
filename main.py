@@ -7,6 +7,9 @@ import traceback
 import random
 import os
 import json
+import mysql.connector
+from mysql.connector import errorcode
+import mysql
 
 with open('secret.json', 'r', encoding='utf8') as s:
     secret = json.load(s)
