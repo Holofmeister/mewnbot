@@ -6,6 +6,7 @@ import math
 import datetime
 import random
 import os
+import json
 
 with open('secret.json', 'r', encoding='utf8') as s:
     secret = json.load(s)
