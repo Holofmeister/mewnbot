@@ -81,7 +81,6 @@ class Quotes(commands.Cog, name='quotes'):
             final = ''
             for x in rearranged_tuple:
                 final += f'#{x[0]}: {x[1]}\n'
-            print(final)
             f.close()
 
         with open("assets/quotes.txt", mode='w', encoding="utf8") as f:

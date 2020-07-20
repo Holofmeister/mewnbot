@@ -2,11 +2,9 @@ import discord
 from discord.ext import commands
 import asyncio
 import datetime
-import sqlite3
 import math
 import os
 from PIL import Image, ImageDraw, ImageFont
-import numpy as np
 import mysql.connector
 from mysql.connector import errorcode
 import mysql
