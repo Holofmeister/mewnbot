@@ -1765,8 +1765,10 @@
             "America/Los_Angeles",
             "America/Phoenix",
             "America/Denver",
+            "America/New_York",
             "America/Chicago",
             "America/Yakutat",
+            "America/New_York",
             "Pacific/Honolulu"
         ]
     },

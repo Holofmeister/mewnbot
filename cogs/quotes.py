@@ -20,13 +20,18 @@ class Quotes(commands.Cog, name='quotes'):
         print('Quotes is loaded.')
     
     async def is_mod(ctx):
-            if MOD_ID in [role.id for role in ctx.author.roles] or ctx.author.id == ADMIN_ID:
-                print('Access granted')
+        if not ctx.guild:
+            if ctx.author.id == ADMIN_ID:
                 return True
             else:
                 await ctx.send("You don't have permission to use this command.")
-                print('Access Denied')
-                return False    
+                return False
+        else:
+            if MOD_ID in [role.id for role in ctx.author.roles] or ctx.author.id == ADMIN_ID:
+                return True
+            else:
+                await ctx.send("You don't have permission to use this command.")
+                return False 
     
     @commands.command(help='Gems from our community, with all the needed context.')
     async def quote(self, ctx, *rqst : str):
