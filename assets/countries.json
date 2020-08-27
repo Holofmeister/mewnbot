@@ -609,6 +609,15 @@
             "Africa/Libreville"
         ]
     },
+
+    "🏴󠁧󠁢󠁥󠁮󠁧󠁿": {
+        "name": "England",
+        "abbreviation": "ENG",
+        "timezones": [
+            "Europe/London"
+        ]
+    },
+
     "🇬🇧": {
         "name": "United Kingdom",
         "abbreviation": "GB",
