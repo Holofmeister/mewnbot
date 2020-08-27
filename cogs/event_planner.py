@@ -80,7 +80,7 @@ class Events(commands.Cog, name='Event'):
         if timezone_input in pytz.all_timezones:
             timezone_object = pytz.timezone(timezone_input)
             embed=discord.Embed(title=f'Event time: {date} {time}', color=0xff00ff)
-            embed.set_author(name=f'what is this')
+
             time_str = f'{date} {time}'
             
             default_tzs = [
