@@ -17,7 +17,7 @@ with open('secret.json', 'r', encoding='utf8') as s:
 with open('server.json', 'r', encoding='utf8') as s:
     credentials = json.load(s)
 
-class Leveling(commands.Cog, name='leveling'):
+class Leveling(commands.Cog, name='Leveling'):
 
     def __init__(self, bot):
         self.bot = bot

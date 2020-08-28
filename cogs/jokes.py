@@ -4,7 +4,7 @@ import asyncio
 import datetime
 import random
 
-class Jokes(commands.Cog, name='jokes'):
+class Jokes(commands.Cog, name='Jokes'):
 
     def __init__(self, bot):
         self.bot = bot

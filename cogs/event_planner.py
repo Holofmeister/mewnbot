@@ -33,9 +33,6 @@ class Events(commands.Cog, name='Event'):
     
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-
-        print(payload)
-        reaction = payload.emoji.name #emoji
         user = await self.bot.fetch_user(payload.user_id)
         with open('events.json', 'r', encoding='utf8') as j_read:
             events = json.loads(j_read.read())

@@ -13,7 +13,7 @@ with open('secret.json', 'r', encoding='utf8') as s:
     MOD_ID = int(secret['MOD_ID'])
     ADMIN_ID = int(secret['ADMIN'])
 
-class Quotes(commands.Cog, name='quotes'):
+class Quotes(commands.Cog, name='Quotes'):
 
     def __init__(self, bot):
         self.bot = bot
