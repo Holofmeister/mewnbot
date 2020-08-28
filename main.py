@@ -29,6 +29,8 @@ except mysql.connector.Error as err:
     else:
         print(err)
 
+client = discord.Client()
+
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
 

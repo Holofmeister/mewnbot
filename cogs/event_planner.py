@@ -32,17 +32,21 @@ class Events(commands.Cog, name='Event'):
                 return False
     
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction, user):
+    async def on_raw_reaction_add(self, payload):
+
+        print(payload)
+        reaction = payload.emoji.name #emoji
+        user = await self.bot.fetch_user(payload.user_id)
         with open('events.json', 'r', encoding='utf8') as j_read:
             events = json.loads(j_read.read())
         with open('./assets/countries.json', 'r', encoding='utf8') as j_flags:
             flags = json.loads(j_flags.read())
-        if str(reaction.message.id) in events:
-            if str(reaction.emoji) in flags:
-                local_timezones = flags[reaction.emoji]['timezones']
-                date = events[str(reaction.message.id)]['date']
-                time = events[str(reaction.message.id)]['time']
-                timezone_object = pytz.timezone(events[str(reaction.message.id)]['timezone'])
+        if str(payload.message_id) in events:
+            if str(payload.emoji.name) in flags:
+                local_timezones = flags[payload.emoji.name]['timezones']
+                date = events[str(payload.message_id)]['date']
+                time = events[str(payload.message_id)]['time']
+                timezone_object = pytz.timezone(events[str(payload.message_id)]['timezone'])
                 time_str = f'{date} {time}'
                 embed=discord.Embed(title=f'Event time: {date} {time}', color=0xff00ff)
                 time_in = datetime.strptime(time_str, '%d/%m/%Y %H:%M')
