@@ -13,20 +13,25 @@ with open('secret.json', 'r', encoding='utf8') as s:
     MOD_ID = int(secret['MOD_ID'])
     ADMIN_ID = int(secret['ADMIN'])
 
-class Quotes(commands.Cog, name='quotes'):
+class Quotes(commands.Cog, name='Quotes'):
 
     def __init__(self, bot):
         self.bot = bot
         print('Quotes is loaded.')
     
     async def is_mod(ctx):
-            if MOD_ID in [role.id for role in ctx.author.roles] or ctx.author.id == ADMIN_ID:
-                print('Access granted')
+        if not ctx.guild:
+            if ctx.author.id == ADMIN_ID:
                 return True
             else:
                 await ctx.send("You don't have permission to use this command.")
-                print('Access Denied')
-                return False    
+                return False
+        else:
+            if MOD_ID in [role.id for role in ctx.author.roles] or ctx.author.id == ADMIN_ID:
+                return True
+            else:
+                await ctx.send("You don't have permission to use this command.")
+                return False 
     
     @commands.command(help='Gems from our community, with all the needed context.')
     async def quote(self, ctx, *rqst : str):
@@ -81,7 +86,6 @@ class Quotes(commands.Cog, name='quotes'):
             final = ''
             for x in rearranged_tuple:
                 final += f'#{x[0]}: {x[1]}\n'
-            print(final)
             f.close()
 
         with open("assets/quotes.txt", mode='w', encoding="utf8") as f:

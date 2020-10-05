@@ -33,6 +33,8 @@ except mysql.connector.Error as err:
     else:
         print(err)
 
+client = discord.Client()
+
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
 
@@ -45,7 +47,8 @@ initial_extensions = ['cogs.jokes',
                     'cogs.raffle',
                     'cogs.quotes',
                     'cogs.help',
-                    'cogs.challenge'
+                    'cogs.challenge',
+                    'cogs.event_planner'
                     ]
 
 if __name__ == '__main__':

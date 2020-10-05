@@ -2,11 +2,9 @@ import discord
 from discord.ext import commands
 import asyncio
 import datetime
-import sqlite3
 import math
 import os
 from PIL import Image, ImageDraw, ImageFont
-import numpy as np
 import mysql.connector
 from mysql.connector import errorcode
 import mysql
@@ -19,7 +17,7 @@ with open('secret.json', 'r', encoding='utf8') as s:
 with open('server.json', 'r', encoding='utf8') as s:
     credentials = json.load(s)
 
-class Leveling(commands.Cog, name='leveling'):
+class Leveling(commands.Cog, name='Leveling'):
 
     def __init__(self, bot):
         self.bot = bot
@@ -59,22 +57,22 @@ class Leveling(commands.Cog, name='leveling'):
                     if xp_end < xp_start:
                         if public_u == 1:
                             await message.channel.send(f'{message.author.mention} has leveled up to level {lvl_start + 1}.')
-                            sql = ("UPDATE levels SET  lvl = %s WHERE guild_id = %s and user_id is %s")
+                            sql = ("UPDATE levels SET lvl = %s WHERE guild_id = %s and user_id = %s")
                             val = (int(lvl_start + 1), str(message.guild.id), str(message.author.id))
                             cursor.execute(sql, val)
                             db.commit()
-                            sql = ("UPDATE levels SET  exp = %s WHERE guild_id = %s and user_id is %s")
+                            sql = ("UPDATE levels SET exp = %s WHERE guild_id = %s and user_id = %s")
                             val = (int(0), str(message.guild.id), str(message.author.id))
                             cursor.execute(sql, val)
                             db.commit()
                             cursor.close()
                             db.close
                         else:
-                            sql = ("UPDATE levels SET  lvl = %s WHERE guild_id = %s and user_id is %s")
+                            sql = ("UPDATE levels SET lvl = %s WHERE guild_id = %s and user_id = %s")
                             val = (int(lvl_start + 1), str(message.guild.id), str(message.author.id))
                             cursor.execute(sql, val)
                             db.commit()
-                            sql = ("UPDATE levels SET  exp = %s WHERE guild_id = %s and user_id is %s")
+                            sql = ("UPDATE levels SET exp = %s WHERE guild_id = %s and user_id = %s")
                             val = (int(0), str(message.guild.id), str(message.author.id))
                             cursor.execute(sql, val)
                             db.commit()
