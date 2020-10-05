@@ -11,6 +11,10 @@ import mysql.connector
 from mysql.connector import errorcode
 import mysql
 
+intents = discord.Intents.default()
+intents.typing = False
+intents.presences = False
+
 with open('secret.json', 'r', encoding='utf8') as s:
     secret = json.load(s)
     TOKEN = secret['TOKEN']
