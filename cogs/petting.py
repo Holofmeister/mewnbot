@@ -35,6 +35,7 @@ class Petting(commands.Cog, name='Petting'):
                     await emoji.url.save(pet_path)
                 except AttributeError:
                     await ctx.send("Sorry, I can't see that emote ; - ; ")
+                    return
             else:
                 avatar = False
                 try:
