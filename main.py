@@ -47,7 +47,8 @@ initial_extensions = ['cogs.jokes',
                     'cogs.quotes',
                     'cogs.help',
                     'cogs.challenge',
-                    'cogs.petting'
+                    'cogs.petting',
+                    'cogs.event_planner'
                     ]
 
 if __name__ == '__main__':

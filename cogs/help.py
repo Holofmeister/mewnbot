@@ -4,15 +4,19 @@ import asyncio
 import datetime
 import random
 
-class Help(commands.Cog, name='help'):
+class Help(commands.Cog, name='Help'):
 
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command()
+    async def test(self, ctx):
+        await ctx.send(self.bot.cogs)
+
     @commands.command(help='u ok?')
     async def help(self, ctx, *cog):
         if not cog:
-            embed = discord.Embed(description='Use !help (category) to list commands', color=0xff9cbb)
+            embed = discord.Embed(description='** Use !help (category) to list commands **', color=0xff9cbb)
             cog_desc = ''
             for x in self.bot.cogs:
                 cog_desc += f'{x}\n'
@@ -35,15 +39,15 @@ class Help(commands.Cog, name='help'):
                             embed.add_field(name=f'{cog[0]} category', value=scog_info)
                             found = True
                 if not found:
-                    for x in self.bot.cogs:
-                        for c in self.bot.get_cog(x).get_commands():
+                    # for x in self.bot.cogs:
+                    #     for c in self.bot.get_cog(x).get_commands():
 
-                            if c.name == cog[0]:
-                                embed = discord.Embed(color=0xff9cbb)
-                                embed.add_field(name=f'!{c.name} - {c.help}', value=f'Proper Syntax:\n{c.qualified_name} {c.signature}')
-                        found = True
-                    if not found:
-                        embed = discord.Embed(title='Error!', description='we couldn\'t find that command')
+                    #         if c.name == cog[0]:
+                    #             embed = discord.Embed(color=0xff9cbb)
+                    #             embed.add_field(name=f'!{c.name} - {c.help}', value=f'Proper Syntax:\n{c.qualified_name} {c.signature}')
+                    #     found = True
+                    # if not found:
+                    embed = discord.Embed(title='Error!', description='we couldn\'t find that command')
                 
                 await ctx.send(embed=embed)
 

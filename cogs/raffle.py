@@ -5,7 +5,7 @@ import asyncio
 import datetime
 import random
 
-class Raffle(commands.Cog, name='mods', command_attrs=dict(hidden=True)):
+class Raffle(commands.Cog, name='Mods', command_attrs=dict(hidden=True)):
 
     def __init__(self, bot):
         self.bot = bot
