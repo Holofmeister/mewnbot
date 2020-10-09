@@ -20,7 +20,8 @@ class Help(commands.Cog, name='Help'):
             cog_desc = ''
             for x in self.bot.cogs:
                 cog_desc += f'{x}\n'
-            embed.add_field(name='Command categories:', value=cog_desc)
+            embed.add_fie
+ld(name='Command categories:', value=cog_desc)
             await ctx.send(embed=embed)
         else:
             if len(cog) > 1:
