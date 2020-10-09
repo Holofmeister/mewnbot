@@ -45,14 +45,15 @@ class Petting(commands.Cog, name='Petting'):
         upload_ = Image.open(pet_path)
         upload_ = upload_.convert('RGBA').resize((112,112))
 
-        # TO DO: Add circular avatars, this code gives an "Images don't match" error code
         if avatar:
             mask_avatar = Image.new('L', (112,112), 0)
             draw = ImageDraw.Draw(mask_avatar)
             draw.ellipse((0,0,112,112), fill=255)
             bg = Image.new('RGBA', (112,112), (0,0,0,0))
             bg.paste(upload_, (0,0), mask_avatar)
-        
+        else:
+            #QUICK FIX MUST CHANGE
+            bg = upload_
         final = []
         for i in range(5):
             
