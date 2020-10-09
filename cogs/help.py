@@ -19,8 +19,7 @@ class Help(commands.Cog, name='Help'):
             embed = discord.Embed(description='** Use !help (category) to list commands **', color=0xff9cbb)
             cog_desc = ''
             for x in self.bot.cogs:
-#                cog_desc += f'{x} - {self.bot.cogs[x].__doc__}\n'
-                cog_desc += f'• {x}\n'
+                cog_desc += f'{x}\n'
             embed.add_field(name='Command categories:', value=cog_desc)
             await ctx.send(embed=embed)
         else:
@@ -38,7 +37,6 @@ class Help(commands.Cog, name='Help'):
                                 if not c.hidden:
                                     scog_info += f'!{c.name} - {c.help}\n'
                             embed.add_field(name=f'{cog[0]} category', value=scog_info)
-#                            embed.add_field(name=f'{cog[0]} category - {self.bot.cogs[cog[0]].__doc__}', value=scog_info)
                             found = True
                 if not found:
                     # for x in self.bot.cogs:

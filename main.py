@@ -14,6 +14,7 @@ import mysql
 intents = discord.Intents.default()
 intents.typing = False
 intents.presences = False
+intents.members = True
 
 with open('secret.json', 'r', encoding='utf8') as s:
     secret = json.load(s)
@@ -33,9 +34,7 @@ except mysql.connector.Error as err:
     else:
         print(err)
 
-client = discord.Client()
-
-bot = commands.Bot(command_prefix='!', case_insensitive=True)
+bot = commands.Bot(command_prefix='!', case_insensitive=True, intents=intents)
 bot.remove_command('help')
 
 @bot.event
@@ -48,6 +47,7 @@ initial_extensions = ['cogs.jokes',
                     'cogs.quotes',
                     'cogs.help',
                     'cogs.challenge',
+                    'cogs.petting',
                     'cogs.event_planner'
                     ]
 
