@@ -12,7 +12,7 @@ import json
 
 with open('server.json', 'r', encoding='utf8') as s:
     credentials = json.load(s)
-    
+
 def json_generator():
     directory = './assets/challenge/'
     filenames = ['species',#choices[0]
@@ -36,9 +36,8 @@ class Challenge(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-
-    loop = asyncio.get_running_loop()
-    await loop.run_in_executor(None, json_generator)
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None, json_generator)
         
     async def character_generator(self):
         
