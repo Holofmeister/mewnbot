@@ -58,30 +58,27 @@ class Petting(commands.Cog, name='Petting'):
 
     @commands.command(help='Pet anything! send a file with the command to pet it or tag someone!')
     async def pet(self, ctx, target=None):
-
         pet_path = f'./temp/{ctx.message.id}.png'
-        try:
-            if target is None:
-                if len(ctx.message.attachments) > 0:
-                    await ctx.message.attachments.save(pet_path)
-                    avatar = False
-                else:
-                    await ctx.author.avatar_url.save(pet_path)
-                    avatar = True
+        if target is None:
+            if len(ctx.message.attachments) > 0:
+                await ctx.message.attachments.save(pet_path)
+                avatar = False
             else:
+                await ctx.author.avatar_url.save(pet_path)
+                avatar = True
+        else:
+            try:
+                user = await self.bot.fetch_user(int(target[3:-1]))
+                await user.avatar_url.save(pet_path)
+                avatar = True
+            except:
                 try:
-                    user = await self.bot.fetch_user(int(target[3:-1]))
-                    await user.avatar_url.save(pet_path)
-                    avatar = True
-                except:
-                    try:
-                        emoji = self.bot.get_emoji(int(str(target).split(':')[-1][0:-1]))
-                        await emoji.url.save(pet_path)
-                    except AttributeError:
-                        await ctx.send("Sorry, I can't see that emote ; - ;")
-                    avatar = False
-        except:
-            pass
+                    emoji = self.bot.get_emoji(int(str(target).split(':')[-1][0:-1]))
+                    await emoji.url.save(pet_path)
+                except AttributeError:
+                    await ctx.send("Sorry, I can't see that emote ; - ;")
+                avatar = False
+
         loop = asyncio.get_running_loop()
         await loop.run_in_executor(None, Image_manip, avatar,ctx.message.id)
 

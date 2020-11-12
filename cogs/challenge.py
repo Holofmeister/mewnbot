@@ -12,29 +12,38 @@ import json
 
 with open('server.json', 'r', encoding='utf8') as s:
     credentials = json.load(s)
+    
+def json_generator():
+    directory = './assets/challenge/'
+    filenames = ['species',#choices[0]
+        'mooncat_type',#choices[1]
+        'item',#choices[2]
+        'personality',#choices[3]
+        'hair',#choices[4]
+        'skin',#choices[5]
+        'jobs_1',#choices[6]
+        'jobs_2',#choices[7]
+        'jobs_3',#choices[8]
+        'jobs_4']#choices[9]
+    files = {}
+    for filename in filenames:
+        with open(f'{directory}{filename}.txt', "r") as file:
+            files[filename] = file.read().splitlines()
+    with open('./temp/characters.json', 'w', encoding='utf8') as f:
+        json.dump(files, f,  ensure_ascii=False, indent=4)
 
 class Challenge(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+
+    loop = asyncio.get_running_loop()
+    await loop.run_in_executor(None, json_generator)
         
     async def character_generator(self):
-        filenames = ['./assets/challenge/species.txt', #choices[0]
-                     './assets/challenge/mooncat_type.txt', #choices[1]
-                     './assets/challenge/item.txt', #choices[2]
-                     './assets/challenge/personality.txt', #choices[3]
-                     './assets/challenge/hair.txt', #choices[4]
-                     './assets/challenge/skin.txt', #choices[5]
-                     './assets/challenge/jobs_1.txt', #choices[6] }JOB
-                     './assets/challenge/jobs_2.txt', #choices[7] }JOB
-                     './assets/challenge/jobs_3.txt', #choices[8] }JOB
-                     './assets/challenge/jobs_4.txt'] #choices[9] }JOB
-        files = {}
-        for filename in filenames:
-            with open(filename, "r") as file:
-                if filename in files:
-                    continue
-                files[filename] = file.read().splitlines()
+        
+        with open('./temp/characters.json', 'r',encoding='utf8') as f:
+            files = json.loads(f.read())
 
         # Takes a seed and gives out a choice list with an item from each category.
         choices = []

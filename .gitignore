@@ -5,3 +5,4 @@ cogs/__pycache__/
 events.json
 temp/*
 main_serverless.py
+test.py
