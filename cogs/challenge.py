@@ -32,13 +32,17 @@ def json_generator():
     with open('./temp/characters.json', 'w', encoding='utf8') as f:
         json.dump(files, f,  ensure_ascii=False, indent=4)
 
+def generator():
+    loop = asyncio.get_running_loop()
+    await loop.run_in_executor(None, json_generator)
+
+asyncio.run(generator())
+
 class Challenge(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        loop = asyncio.get_running_loop()
-        await loop.run_in_executor(None, json_generator)
-        
+ 
     async def character_generator(self):
         
         with open('./temp/characters.json', 'r',encoding='utf8') as f:
