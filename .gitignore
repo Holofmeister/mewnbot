@@ -4,3 +4,4 @@ cogs/__pycache__/
 .vscode/settings.json
 events.json
 temp/*
+main_serverless.py

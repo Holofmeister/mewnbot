@@ -1,21 +1,6 @@
 # Introduction
 A discord bot created for fiyunae's community using the discord.py wrapper.
-Check fiyunae on [twitch.](https://www.twitch.tv/fiyunae).
-
-## Requirements:
-    aiohttp
-    async-timeout
-    attrs       
-    chardet    
-    discord.py
-    idna
-    multidict    
-    numpy       
-    Pillow       
-    python-decouple
-    pytz     
-    websockets     
-    yarl
+Check fiyunae on [twitch.](https://www.twitch.tv/fiyunae)
 
 I don't really advice running this on your own, but if you do you'll have to
 execute the "setup.py" script (to be added) and add your own tokens.

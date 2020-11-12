@@ -109,7 +109,6 @@ class Quotes(commands.Cog, name='Quotes'):
         file.write(final)
 
         await ctx.send(f'Successfully deleted quote {quote}')
-
     
     @commands.command(hidden=True)
     @commands.check(is_mod)
