@@ -32,7 +32,7 @@ def json_generator():
     with open('./temp/characters.json', 'w', encoding='utf8') as f:
         json.dump(files, f,  ensure_ascii=False, indent=4)
 
-def generator():
+async def generator():
     loop = asyncio.get_running_loop()
     await loop.run_in_executor(None, json_generator)
 
