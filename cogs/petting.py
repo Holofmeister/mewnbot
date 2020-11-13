@@ -75,7 +75,7 @@ class Petting(commands.Cog, name='Petting'):
                 try:
                     emoji = self.bot.get_emoji(int(str(target).split(':')[-1][0:-1]))
                     await emoji.url.save(pet_path)
-                except AttributeError:
+                except:
                     await ctx.send("Sorry, I can't see that emote ; - ;")
                 avatar = False
 
